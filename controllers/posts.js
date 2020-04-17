@@ -1,17 +1,19 @@
 'use strict';
 const Post = require ('../models/post');
+const Comment = require('../models/comment')
+const db = require ('../models')
 
-function toResponse(doc) {
+// function toResponse(doc) {
     
-    if(doc instanceof Array){
-        return doc.map(elem => toResponse(elem));
-    } else {
-        let ret = doc.toObject({ versionKey: false });
-        ret.id = ret._id.toString();
-        delete ret._id;
-        return ret;
-    }    
-}
+//     if(doc instanceof Array){
+//         return doc.map(elem => toResponse(elem));
+//     } else {
+//         let ret = doc.toObject({ versionKey: false });
+//         ret.id = ret._id.toString();
+//         delete ret._id;
+//         return ret;
+//     }    
+// }
 
 async function getPosts(req, res) {
     let allPosts = await Post.find().exec();
@@ -27,29 +29,30 @@ async function addNewPost(req, res){
         res.sendStatus(400);
     } else {
         
-        const newPost = new Post({
-            username: post.username ,
-            nickname: post.nickname,
-            title: post.title,
-            text: post.text,
-            date: post.date,
-            comments: post.comments
+        // const newPost = new Post({
+        //     username: post.username ,
+        //     nickname: post.nickname,
+        //     title: post.title,
+        //     text: post.text,
+        //     date: post.date,
+        //     comments: post.comments
             
-        });
+        // });
         
-        await newPost.save();
+        const newPost = await db.Post.create(req.body)
+        //newPost.save();
 
-        res.json(toResponse(newPost));
+        res.json(newPost);
     }
 }
 
 async function getPostById (req, res){
     const id = req.params.id;
-    const post = await Post.findById(id);
+    const post = await db.Post.findById(id);
     if (!post) {
         res.sendStatus(404);
     } else {
-        res.json(toResponse(post));
+        res.json(post);
     }
 }
 
@@ -60,7 +63,7 @@ async function deletePost(req, res) {
         res.sendStatus(404);
     } else {
         await Post.findByIdAndDelete(id);
-        res.json(toResponse(post));
+        res.json(post);
     }
 }
 
@@ -75,7 +78,7 @@ async function updatePost (req, res) {
         if (typeof postReq.username != 'string' || typeof postReq.nickname  != 'string' || typeof  postReq.title != 'string' || typeof  postReq.text != 'string') {
             res.sendStatus(400);
         } else {
-            //Update model
+            //Update fields in model
             post.username = postReq.username; 
             post.nickname = postReq.nickname; 
             post.title = postReq.title; 
@@ -87,11 +90,10 @@ async function updatePost (req, res) {
             await post.save();
             
             //Return updated resource
-            res.json(toResponse(post));
+            res.json(post);
         }
     }
 };
-
 
 
 module.exports={
@@ -99,5 +101,5 @@ module.exports={
     addNewPost,
     getPostById,
     deletePost,
-    updatePost
+    updatePost, 
 }
