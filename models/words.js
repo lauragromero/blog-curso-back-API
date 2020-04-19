@@ -9,4 +9,4 @@ const WordsSchema = new Schema({
 })
 
 
-module.exports = mongoose.model('Words', WordsSchema)
+module.exports = mongoose.model('Word', WordsSchema)

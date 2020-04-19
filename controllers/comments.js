@@ -10,20 +10,27 @@ async function getAllCommets (req, res) {
     });
 };
 
-function addNewComent(req, res) {
-    db.Comment.create(req.body)
-    .then(function(dbComment) {
-      return db.Post.findOneAndUpdate({ _id: req.params.id }, { comments: dbComment._id }, { new: true });
-    })
-    .then(function(dbPost) {
-      res.json(dbPost);
-    })
-    .catch(function(err) {
-      res.json(err);
-    });
-//     const dbComment = db.Comment.create(req.body)
-//     const dbPost = await db.Post.findOneAndUpdate({ _id: req.params.id }, { comments: dbComment._id }, { new: true });
-//    await res.json(dbPost);
+async function addNewComent(req, res) {
+    const commentReq = req.body;
+    console.log(commentReq)
+    if (typeof commentReq.username != 'string' || typeof commentReq.nickname  != 'string' || typeof  commentReq.comment != 'string') {
+        res.sendStatus(400);
+    } else {
+        const dbComment = await db.Comment.create(req.body)
+        const dbPost = await db.Post.findOneAndUpdate({ _id: req.params.id }, { comments: dbComment._id }, { new: true });
+        await res.json(dbPost);
+    }
+    // db.Comment.create(req.body)
+    // .then(function(dbComment) {
+    //   return db.Post.findOneAndUpdate({ _id: req.params.id }, { comments: dbComment._id }, { new: true });
+    // })
+    // .then(function(dbPost) {
+    //   res.json(dbPost);
+    // })
+    // .catch(function(err) {
+    //   res.json(err);
+    // });
+    
 };
 
 async function updateComment(req, res){

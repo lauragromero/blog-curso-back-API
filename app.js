@@ -4,6 +4,7 @@ const mongoose = require('mongoose');
 const bodyParser = require ('body-parser')
 const express = require('express');
 const post = require('./routes/posts');
+const word = require('./routes/words');
 
 
 const url = "mongodb://admin:admin@localhost:27018/blogDB?authSource=admin";
@@ -15,7 +16,8 @@ const app = express();
 app.use(bodyParser.urlencoded({extended: false})); 
 app.use(bodyParser.json());
 app.use(express.json());
-app.use('/api', post)
+app.use('/api', post);
+app.use('/api', word)
 
 
 
