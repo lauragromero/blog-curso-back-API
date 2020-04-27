@@ -5,7 +5,7 @@ const router = express.Router();
 const passport = require('../../passport');
 
 
-router.put('/:id',passport.authenticate('jwt', { session: false }), ValidatorCheckOffensiveWord, async(req, res, next) => {
+router.put('/:id', ValidatorCheckOffensiveWord, async(req, res, next) => {
     try {
         const id = req.params.id;
         const comment = req.body;
@@ -23,7 +23,7 @@ router.put('/:id',passport.authenticate('jwt', { session: false }), ValidatorChe
     }
 });
 
-router.delete('/:id',passport.authenticate('jwt', { session: false }), async(req, res, next) => {
+router.delete('/:id', async(req, res, next) => {
     try {
         const id = req.params.id;
         const result = await CommentService.deleteComment(id);

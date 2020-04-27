@@ -19,14 +19,14 @@ UserService.find = async (user) => {
 
 }
 
-UserService.verifyPassword = async (user, password) => {
-    try {
-        return await UserRepository.verifyPassword(user, password);
-    } catch (err) {
-        console.log(err);
-    }
+// UserService.verifyPassword = async (user, password) => {
+//     try {
+//         return await UserRepository.verifyPassword(user, password);
+//     } catch (err) {
+//         console.log(err);
+//     }
 
-}
+// }
 
 UserService.createToken = async (user) => {
     try {

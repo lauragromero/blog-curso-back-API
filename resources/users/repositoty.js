@@ -27,7 +27,7 @@ UserRepository.find = async (username) =>{
 }
 
 UserRepository.verifyPassword = async(user, password)=> {
-    return await bcrypt.compare(password, user.passwordHash);
+    return await bcrypt.compare(password, user.password);
 }
 
 UserRepository.createToken = async(username)=>{

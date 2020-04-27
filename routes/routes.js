@@ -10,13 +10,14 @@ const passport = require('../passport');
 
 const routes = express.Router(); 
 
+
 routes.use(passport.initialize());
 
 routes.use('/post',postControllers);
 routes.use('/comment', commentControllers);
 routes.use('/offensiveword', offensiveWordControllers);
 routes.use('/user',userController);
-routes.use('/login',passport.authenticate('basic', { session: false }), loginController)
+routes.use('/login', passport.authenticate('basic', { session: false }), loginController)
 
 
 
