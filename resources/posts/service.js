@@ -43,9 +43,9 @@ PostService.deletePost = async (id) => {
     }
 }
 
-PostService.addComment = async (id, comment) => {
+PostService.addComment = async (id, comment, authorId, postAuthId) => {
     try {
-        return await PostRepository.addComment(id, comment);
+        return await PostRepository.addComment(id, comment, authorId, postAuthId);
     } catch (err) {
         console.log(err);
     }

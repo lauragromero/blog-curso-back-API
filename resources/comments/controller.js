@@ -13,7 +13,7 @@ router.put('/:id', passport.authenticate('jwt', { session: false }), ValidatorCh
         if (result !== null) {
             res.status(200).json(result);
         }else{
-            res.status(404).json({message: 'Recurso no encontrado'})
+            res.status(404).json({message: 'Comentario  no encontrado'})
         }
     } catch (err) {
         console.log(err);
@@ -27,18 +27,23 @@ router.put('/:id', passport.authenticate('jwt', { session: false }), ValidatorCh
 router.delete('/:id',passport.authenticate('jwt', { session: false }), async(req, res, next) => {
     try {
         const role =  req.user.role;
+        const id = req.params.id;
+        const authorId = req.user._id;
+        const commentID = await CommentService.getById(id);
+        console.log(authorId, commentID)
         console.log(role)
-        if(role === 'admin'){
-            const id = req.params.id;
+        if(role === 'admin'|| authorId == commentID.authPost){
             const result = await CommentService.deleteComment(id);
             if (result !== null) {
-                res.status(200).json(result);
+                res.status(200).json({message: 'Comentario borrado correctamente'});
             }else{
-                res.status(404).json({message: 'Recurso no encontrado'})
+                res.status(404).json({message: 'Comentario no encontrado'})
             }
+        }else{
+            res.status(401).json({message: 'No se puede borrar el comentario'})
         }
         
-    } catch (error) {
+    } catch (err) {
         console.log(err);
         res.status(500).send(err);
     }finally {

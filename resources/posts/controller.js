@@ -5,6 +5,7 @@ const passport = require('../../passport');
 const PostService = require('./service');
 const router = express.Router();
 
+//todos pueden consultar los post 
 router.get('/', async (req, res, next) => {
     try{
         const posts = await PostService.getAll();
@@ -39,7 +40,6 @@ router.post('/', passport.authenticate('jwt', { session: false }), async (req, r
         const authorId = req.user._id;
         const newPost = await PostService.addPost(req.body, authorId);
         res.status(201).send(newPost);
-        //res.status(401).send('No puedes publicar un post sin estar registrado')
     }catch(err) {
         console.log(err);
         res.status(500).send(err);
@@ -57,6 +57,7 @@ router.put('/:id',passport.authenticate('jwt', { session: false }), async (req, 
         const id = req.params.id;
         const post = req.body;
         const postID = await PostService.getById(id);
+        console.log(postID.authorId, authorId)
         
         if(role === 'admin' || postID.authorId == authorId ){
             const result = await PostService.updatePost(id, post);
@@ -65,6 +66,8 @@ router.put('/:id',passport.authenticate('jwt', { session: false }), async (req, 
             }else{
                 res.status(404).json({message: 'Recurso no encontrado'})
             }
+        }else{
+            res.status(403).json({message: 'No puedes modificar el post'})
         }
     } catch (err) {
         console.log(err);
@@ -89,8 +92,9 @@ router.delete('/:id', passport.authenticate('jwt', { session: false }), async(re
             }else{
                 res.status(404).json({message: 'Recurso no encontrado'})
             }
+        }else{
+            res.status(403).json({message: 'No puedes borrar este post'})
         }
-        
         
     } catch (err) {
         console.log(err);
@@ -100,14 +104,16 @@ router.delete('/:id', passport.authenticate('jwt', { session: false }), async(re
     }
 });
 
-
+//añadir comentarios tanto si eres admin como si eres publisher
 router.put('/:id/comment',passport.authenticate('jwt', { session: false }), OffensiveValidator,  async(req, res, next) => {
     try {
+        const authorId = req.user._id;
         const id = req.params.id;
+        const postID = await PostService.getById(id);
+        console.log(authorId, postID.authorId)
+    
         const comment = req.body;
-        console.log('id', id);
-        console.log('comment', comment);
-        const postUpdate = await PostService.addComment(id, comment);
+        const postUpdate = await PostService.addComment(id, comment, authorId, postID.authorId);
         res.status(200).json(postUpdate);
     } catch (err) {
         console.log(err);

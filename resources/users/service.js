@@ -4,7 +4,7 @@ const UserService = {};
 
 UserService.getAllUsers = async () => {
     try {
-        return await OffensiveWordRepository.getAllUsers();   
+        return await UserRepository.getAllUsers();   
     } catch (err) {
         console.log(err);
     }

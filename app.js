@@ -22,6 +22,7 @@ app.use(bodyParser.json());
 app.use(express.json());
 app.use('/', routes);
 
+
 //conexión a la base de datos 
 async function dbConnect() {
 
@@ -34,13 +35,10 @@ async function dbConnect() {
     defaultOffensiveWords();
     
     console.log("Connected to Mongo");
-
 }
 
 async function main() {
-
     await dbConnect();
-
     app.listen(port, () => console.log(`Server started in port ${port}`));
 }
 

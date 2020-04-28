@@ -36,7 +36,7 @@ PostRepository.addPost = async (post, authorId) => {
 PostRepository.updatePost = async (id, post) => {
     try {
         let postUpdate = await Post.findByIdAndUpdate(id, post, {new: true});
-        return postUpdate;   
+        return await postUpdate;   
     } catch (err) {
         console.log(err);
     }
@@ -52,9 +52,9 @@ PostRepository.deletePost = async (id) => {
 }
 
 
-PostRepository.addComment = async (idPost, comment) => {
+PostRepository.addComment = async (idPost, comment, authorId, postAuthId) => {
     try {
-        const newComment = await CommentRepository.addComment(comment);
+        const newComment = await CommentRepository.addComment(comment, authorId, postAuthId);
         let postUpdate = await Post.findByIdAndUpdate(idPost, {$push: {comments: newComment}}, {new: true});
         return postUpdate;
     } catch (err) {

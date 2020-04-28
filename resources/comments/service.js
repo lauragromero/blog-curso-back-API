@@ -9,6 +9,15 @@ CommentService.updateComment = async (idComment, comment) => {
     }
 };
 
+
+CommentService.getById = async (id) => {
+    try {
+        return await CommentRepository.getById(id);   
+    } catch (err) {
+        console.log(err);
+    }
+}
+
 CommentService.deleteComment = async (idComment) => {
     try {
         return await CommentRepository.deleteComment(idComment);

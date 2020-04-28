@@ -6,6 +6,7 @@ const CommentSchema = new Schema({
     nickname: {type: 'String'},
     username: {type: 'String'},
     comment: {type: 'String'},
+    authPost: {type: 'String'},
     date: { type: Date, default: Date.now },
     
 })

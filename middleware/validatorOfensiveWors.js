@@ -12,7 +12,7 @@ async  function OffensiveValidator (req, res, next) {
     const comment = req.body;
     //me traigo las palabras de la base de datos
     const offensivewordsDB = await OffensiveWordRepository.getAll();
-
+    //recorro esas palabras y voy fomando un objeto con la palabra y el nivel 
     const offensivewords = offensivewordsDB.map(item => {
         return { word: item.word, level: item.level }
     });
@@ -21,8 +21,8 @@ async  function OffensiveValidator (req, res, next) {
     if (offensivewordsFound.length === 0) {
         next();
     }else{
-        const offensiveWord = offensivewordsFound.map(word => word.word);
-        res.status(403).json({message: `La palabra ${offensiveWord} no está permitida`});
+        const offensiveWord = offensivewordsFound.map(word => `La palabra ${word.word} no está permitida con nivel ${word.level}`);
+        res.status(403).json({message: offensiveWord});
     }
     return offensivewordsFound;
 }
