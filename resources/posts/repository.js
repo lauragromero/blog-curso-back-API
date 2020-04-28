@@ -21,8 +21,15 @@ PostRepository.getById = async (id) => {
     }
 }
 
-PostRepository.addPost = async (post) => {
-    const newPost = new Post(post);
+PostRepository.addPost = async (post, authorId) => {
+    const newPost = new Post(
+        {username: post.username ,
+        nickname: post.nickname,
+        authorId: authorId,
+        title: post.title,
+        text: post.text,
+        date: post.date} 
+    );
     return await newPost.save();
 }
 

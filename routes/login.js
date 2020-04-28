@@ -1,8 +1,6 @@
 
 const express = require('express');
-//const generateToken = require('../middleware/generateToken')
 
-//const ExtractJwt = require('passport-jwt').ExtractJwt;
 const jwt = require("jsonwebtoken");
 
 const SECRET_KEY = "SECRET_KEY" //normally store this in process.env.secret
@@ -10,9 +8,9 @@ const router = express.Router();
 
 router.post('/', async (req, res, next) => {
     try {
-        const username = req.body.username;
-       // const opts = { expiresIn: 120 }; //token expires in 2min
-        const token = jwt.sign({ username }, SECRET_KEY);
+        const user = req.user;
+        const opts = { expiresIn: 3000 }; 
+        const token = jwt.sign({ user: user.username, id: user._id, isAdmin: user.isAdmin}, SECRET_KEY, opts);
         console.log(token, 'hola')
         return res.status(200).json({ message: "Auth Passed", token });
     }catch(err) {

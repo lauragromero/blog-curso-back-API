@@ -2,6 +2,14 @@ const UserRepository = require('./repositoty');
 
 const UserService = {}; 
 
+UserService.getAllUsers = async () => {
+    try {
+        return await OffensiveWordRepository.getAllUsers();   
+    } catch (err) {
+        console.log(err);
+    }
+}
+
 UserService.createUser = async (user) => {
     try {
         return await UserRepository.createUser(user);

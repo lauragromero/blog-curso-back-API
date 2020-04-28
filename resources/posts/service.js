@@ -19,9 +19,9 @@ PostService.getById = async (id) => {
     }
 }
 
-PostService.addPost = async (post) => {
+PostService.addPost = async (post, authorId) => {
     try {
-        return await PostRepository.addPost(post);
+        return await PostRepository.addPost(post, authorId);
     } catch (err) {
         console.log(err);
     }

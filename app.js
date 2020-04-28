@@ -3,11 +3,13 @@
 const mongoose = require('mongoose');
 const bodyParser = require ('body-parser')
 const express = require('express');
-const passport = require('passport');
 
 
 const url = "mongodb://admin:admin@localhost:27018/blogDB?authSource=admin";
 const port = process.env.PORT || 3002; 
+
+const adminUsersDefault = require('./db/load_admins');
+const defaultOffensiveWords = require('./db/defaultOffensiveWords');
 
 const app = express();
 
@@ -28,6 +30,8 @@ async function dbConnect() {
         useNewUrlParser: true,
         useFindAndModify: false
     });
+    adminUsersDefault();
+    defaultOffensiveWords();
     
     console.log("Connected to Mongo");
 

@@ -7,6 +7,7 @@ const PostSchema = new Schema({
     username: {type: 'String'},
     nickname: {type: 'String'},
     title: {type: 'String'},
+    authorId: { type: 'String'},
     text: {type: 'String'},
     date: { type: Date, default: Date.now },
     comments: {

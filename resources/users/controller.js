@@ -4,6 +4,21 @@ const UserService = require('./service');
 
 const router = express.Router();
 
+
+
+router.get('/', async (req, res, next) => {
+    try{
+        const allUsers = await UserService.getAllUsers();
+        res.status(200).json(allUsers);
+    }catch(err) {
+        console.log(err);
+        res.status(500).send(err);
+    }finally {
+        next();
+    }
+    
+})
+
 router.post('/', async (req, res, next) => {
     try {
         const newUser = await UserService.createUser(req.body);

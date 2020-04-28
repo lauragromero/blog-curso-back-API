@@ -6,6 +6,14 @@ const UserRepository = {};
 
 const SECRET_KEY = "SECRET_KEY" ;
 
+UserRepository.getAllUsers = async ()=>{
+    try {
+        return await User.find({}).select({ __v:0});
+    }catch(err) {
+        console.log(err);
+    }
+}
+
 UserRepository.createUser = async (user) => {
     let userLogin = await User.findOne({username: user.username});
     
@@ -13,7 +21,8 @@ UserRepository.createUser = async (user) => {
         userLogin = new User({ 
             username: user.username,
             nickname: user.nickname, 
-            password: user.password 
+            password: user.password, 
+            role: user.role 
         });
     }else{
         userLogin.password = user.password;
@@ -31,7 +40,7 @@ UserRepository.verifyPassword = async(user, password)=> {
 }
 
 UserRepository.createToken = async(username)=>{
-    const token = jwt.sign({ user: username }, SECRET_KEY);
+    const token = jwt.sign({  user: username.username, id: username._id, isAdmin: username.isAdmin}, SECRET_KEY);
     console.log(token);
     return token;
 }

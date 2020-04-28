@@ -31,10 +31,15 @@ router.get('/:id', async (req, res, next) => {
     }
 })
 
-router.post('/',passport.authenticate('jwt', { session: false }), async (req, res, next) => {
+
+//solo pueden publicar si estás registrado 
+router.post('/', passport.authenticate('jwt', { session: false }), async (req, res, next) => {
+    
     try {
-        const newPost = await PostService.addPost(req.body);
+        const authorId = req.user._id;
+        const newPost = await PostService.addPost(req.body, authorId);
         res.status(201).send(newPost);
+        //res.status(401).send('No puedes publicar un post sin estar registrado')
     }catch(err) {
         console.log(err);
         res.status(500).send(err);
@@ -43,15 +48,23 @@ router.post('/',passport.authenticate('jwt', { session: false }), async (req, re
     }
 })
 
+// modificar un post, solo si eres admin o si ese post es de ese usuario 
 router.put('/:id',passport.authenticate('jwt', { session: false }), async (req, res, next) => {
+    
     try {
+        const authorId = req.user._id;
+        const role =  req.user.role;
         const id = req.params.id;
         const post = req.body;
-        const result = await PostService.updatePost(id, post);
-        if (result !== null) {
-            res.status(200).json(result);
-        }else{
-            res.status(404).json({message: 'Recurso no encontrado'})
+        const postID = await PostService.getById(id);
+        
+        if(role === 'admin' || postID.authorId == authorId ){
+            const result = await PostService.updatePost(id, post);
+            if (result !== null) {
+                res.status(200).json(result);
+            }else{
+                res.status(404).json({message: 'Recurso no encontrado'})
+            }
         }
     } catch (err) {
         console.log(err);
@@ -61,15 +74,23 @@ router.put('/:id',passport.authenticate('jwt', { session: false }), async (req, 
     }
 });
 
-router.delete('/:id',passport.authenticate('jwt', { session: false }), async(req, res, next) => {
+//borrar un post si eres admin o si ese post es del usuario
+router.delete('/:id', passport.authenticate('jwt', { session: false }), async(req, res, next) => {
     try {
+        const authorId = req.user._id;
+        const role =  req.user.role;
         const id = req.params.id;
-        const result = await PostService.deletePost(id);
-        if (result !== null) {
-            res.status(200).json(result);
-        }else{
-            res.status(404).json({message: 'Recurso no encontrado'})
+        const postID = await PostService.getById(id);
+
+        if(role=== 'admin' || postID.authorId == authorId ){
+            const result = await PostService.deletePost(id);
+            if (result !== null) {
+                res.status(200).json(result);
+            }else{
+                res.status(404).json({message: 'Recurso no encontrado'})
+            }
         }
+        
         
     } catch (err) {
         console.log(err);
