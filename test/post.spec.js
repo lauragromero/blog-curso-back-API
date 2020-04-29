@@ -1,17 +1,16 @@
+
 const app = require('../server');
 const supertest = require('supertest')
 
 
 const request = supertest(app)
 
-
 //TEST PARA GET POST
-describe('No login', function () {
+describe('get all post' , function () {
   it('Get de todos los post', async (done) => {
     const { body } = await request.get('/post')
         .expect('Content-type', /json/)
         .expect(200)
-    console.log(body)
     expect(body[0].username).toBeTruthy();
     expect(body[0].nickname).toBeTruthy();
     expect(body[0].text).toBeTruthy();
@@ -19,11 +18,11 @@ describe('No login', function () {
   });
 
   //intentar crear un post sin estar registrado
-  it('Crear post sin login', async (done) => {
-    var newPost = {
+  it('try to create a post without', async (done) => {
+    const newPost = {
         username: 'peppe',
-        title: 'Learn About Something',
-        text: 'Lets learn guys. Im going to explain you how.',
+        title: 'Aprendiendo algo nuevo',
+        text: 'Vamos a aprender a hacer Super test paso a paso',
     };
 
     const { body } = await request.post('/post')
@@ -35,7 +34,7 @@ describe('No login', function () {
 
 });
 
-describe('Test de post', function () {
+describe('Test de post with auth', function () {
 
   let token = null;
   //hacemos el login para conseguir el token
@@ -56,7 +55,7 @@ describe('Test de post', function () {
   });
 
   //CREAR POST CON AUTH
-  it('when create new POST then this post can be obtained', async (done) => {
+  it('create new POST ', async (done) => {
     var newPost = {
         username: 'peppe',
         nickname: 'pep',
@@ -77,7 +76,6 @@ describe('Test de post', function () {
         .set("Accept", "text/plain")
         .expect('Content-type', /json/)
         .expect(200)
-    console.log(getNewPost.body)
     expect(getNewPost.body.username).toEqual('peppe');
     expect(getNewPost.body.nickname).toEqual('pep');
 
@@ -94,8 +92,33 @@ describe('Test de post', function () {
       done();    
   });
 
+//   //AÑADIR UN COMENTARIO
+//   it('Update a post and add new comment', async (done) => {
+//     const allPost = await request.get('/post');
+//     const lastPostId = allPost.body[allPost.body.length - 1]._id
+//     const newComment = { 
+//         nickname: 'pepe',
+//         username: 'ana22',
+//         comment : 'Qué bonita es la caca en la primavera!!!!!'
+//     };
+//     console.log(newComment)
+//     await request.put('/post/' + lastPostId + '/comment' )
+//         .send(newComment)
+//         .set('Authorization', 'bearer ' + token)
+//         .expect('Content-type', /json/)
+//         .expect(200)
+
+//     const updateOldPOst = await request.get('/post/' + lastPostId)
+//         .expect('Content-type', /json/)
+//         .expect(200)
+//     expect(updateOldPOst.body.comment).toEqual(newComment);
+//     //expect(updateOldPOst.body.content).toEqual(newComment);
+//     done();
+
+// });
+
   //PUT DE UN POST CON AUTH
-  test('when update a POST then is effectively updated', async (done) => {
+  it('update a POST', async (done) => {
     const allPost = await request.get('/post');
     const lastPostId = allPost.body[allPost.body.length - 1]._id
     const updatedPost = { 
@@ -118,7 +141,7 @@ describe('Test de post', function () {
 });
 
   //DELETE POST SON AUTH
-  it('when delete ad then is effectively deleted', async () => {
+  it('delete a post', async () => {
     const allPost = await request.get('/post');
     //para borrar el último post, hago la petición de de todos los post, despues cojo el id del último que es el último que se ha creado con el test anterior, así lo borro y no se queda el de prueba en la db
     const lastPostId = allPost.body[allPost.body.length - 1]._id
@@ -127,7 +150,6 @@ describe('Test de post', function () {
           .set('Authorization', 'bearer ' + token)
           .expect('Content-type', /json/)
           .expect(200)
-    console.log(postdeleted.body)
     //compruebo que está borrado 
       await request.get('/post/'+ lastPostId)
            .expect(404)

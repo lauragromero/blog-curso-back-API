@@ -71,7 +71,7 @@ router.put('/:id',passport.authenticate('jwt', { session: false }), async (req, 
                 res.status(404).json({message: 'Post not found'})
             }
         }else{
-            res.status(403).json({message: 'Can not delete this post'})
+            res.status(403).json({message: 'Can not modify this post'})
         }
     } catch (err) {
         console.log(err);
@@ -115,10 +115,14 @@ router.put('/:id/comment',passport.authenticate('jwt', { session: false }), Offe
         const id = req.params.id;
         const postID = await PostService.getById(id);
         console.log(authorId, postID.authorId)
-    
         const comment = req.body;
         const postUpdate = await PostService.addComment(id, comment, authorId, postID.authorId);
-        res.status(200).json(postUpdate);
+
+        if (postUpdate !== null) {
+            res.status(200).json(postUpdate);
+        }else{
+            res.status(404).json({message: 'Comentario no añadido'})
+        }
     } catch (err) {
         console.log(err);
         res.status(500).send(err);
