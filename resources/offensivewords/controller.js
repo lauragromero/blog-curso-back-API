@@ -37,7 +37,7 @@ router.put('/:id', async (req, res, next) => {
         if (result !== null) {
             res.status(200).json(result);
         }else{
-            res.status(404).json({message: 'Recurso no encontrado'})
+            res.status(404).json({message: 'Word not found'})
         }
     } catch (err) {
         console.log(err);
@@ -54,7 +54,7 @@ router.delete('/:id', async(req, res, next) => {
         if (result !== null) {
             res.status(200).json(result);
         }else{
-            res.status(404).json({message: 'Recurso no encontrado'})
+            res.status(404).json({message: 'Word not found'})
         }
         
     } catch (err) {

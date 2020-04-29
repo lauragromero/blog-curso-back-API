@@ -13,7 +13,7 @@ router.put('/:id', passport.authenticate('jwt', { session: false }), ValidatorCh
         if (result !== null) {
             res.status(200).json(result);
         }else{
-            res.status(404).json({message: 'Comentario  no encontrado'})
+            res.status(404).json({message: 'Comment not found'})
         }
     } catch (err) {
         console.log(err);
@@ -35,12 +35,12 @@ router.delete('/:id',passport.authenticate('jwt', { session: false }), async(req
         if(role === 'admin'|| authorId == commentID.authPost){
             const result = await CommentService.deleteComment(id);
             if (result !== null) {
-                res.status(200).json({message: 'Comentario borrado correctamente'});
+                res.status(200).json({message: 'Comment delete'});
             }else{
-                res.status(404).json({message: 'Comentario no encontrado'})
+                res.status(404).json({message: 'Comment not found'})
             }
         }else{
-            res.status(401).json({message: 'No se puede borrar el comentario'})
+            res.status(401).json({message: 'Can not delete this comment'})
         }
         
     } catch (err) {

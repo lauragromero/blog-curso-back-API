@@ -26,7 +26,7 @@ UserRepository.createUser = async (user) => {
         });
     }else{
         userLogin.password = user.password;
-        console.log('usuario resgistrado')
+        console.log('User already registered')
     }
      return await userLogin.save();
 }

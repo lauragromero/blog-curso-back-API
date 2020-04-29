@@ -23,7 +23,11 @@ router.get('/:id', async (req, res, next) => {
     try {
         const id = req.params.id;
         const post = await PostService.getById(id);
-        res.status(200).json(post);
+        if (post !== null) {
+            res.status(200).json(post);
+        }else{
+            res.status(404).json({message: 'Post not found'})
+        }
     } catch (err) {
         console.log(err);
         res.status(500).send(err);
@@ -64,10 +68,10 @@ router.put('/:id',passport.authenticate('jwt', { session: false }), async (req, 
             if (result !== null) {
                 res.status(200).json(result);
             }else{
-                res.status(404).json({message: 'Recurso no encontrado'})
+                res.status(404).json({message: 'Post not found'})
             }
         }else{
-            res.status(403).json({message: 'No puedes modificar el post'})
+            res.status(403).json({message: 'Can not delete this post'})
         }
     } catch (err) {
         console.log(err);
@@ -90,10 +94,10 @@ router.delete('/:id', passport.authenticate('jwt', { session: false }), async(re
             if (result !== null) {
                 res.status(200).json(result);
             }else{
-                res.status(404).json({message: 'Recurso no encontrado'})
+                res.status(404).json({message: 'Post not found'})
             }
         }else{
-            res.status(403).json({message: 'No puedes borrar este post'})
+            res.status(403).json({message: 'Can not delete this post'})
         }
         
     } catch (err) {
