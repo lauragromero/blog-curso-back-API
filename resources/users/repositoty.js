@@ -41,7 +41,6 @@ UserRepository.verifyPassword = async(user, password)=> {
 
 UserRepository.createToken = async(username)=>{
     const token = jwt.sign({  user: username.username, id: username._id, isAdmin: username.isAdmin}, SECRET_KEY);
-    console.log(token);
     return token;
 }
 

@@ -1,7 +1,6 @@
 
 const app = require('../server');
-const supertest = require('supertest')
-
+const supertest = require('supertest');
 
 const request = supertest(app)
 
@@ -47,28 +46,27 @@ describe('Test de post with auth', function () {
               done();
           });
   });
-//comprobamos que el token se ha generado ok
-  it('if token has been generated', () => {
-      expect(token).toBeTruthy();
-      expect(token).not.toBeUndefined();
-      expect(typeof token).toBe('string');
-  });
 
   //CREAR POST CON AUTH
-  it('create new POST ', async (done) => {
-    var newPost = {
+  it('CRUD', async (done) => { 
+
+  //comprobamos que el token se ha generado ok
+  expect(token).toBeTruthy();
+  expect(token).not.toBeUndefined();
+  expect(typeof token).toBe('string');
+
+  const newPost = {
         username: 'peppe',
         nickname: 'pep',
         title: 'Aprendiendo a hacer test',
-        text: 'Que divertido es aprender a ha hacer testing'
-    };
+        text: 'Que divertido es aprender a ha hacer testing'}
     //se crea el nuevo post 
     const addPost = await request.post('/post')
         .send(newPost)
         .set('Authorization', 'bearer ' + token)
         .expect('Content-type', /json/)
         .expect(201)
-    //Se coge el id del post que se ha creado 
+    
     const lastPostId = addPost.body._id
 
     //se comprueba que ese post con ese id esta en db y que además coincide con los datos 
@@ -79,48 +77,17 @@ describe('Test de post with auth', function () {
     expect(getNewPost.body.username).toEqual('peppe');
     expect(getNewPost.body.nickname).toEqual('pep');
 
-    done();
-  });
+
   //GET POST POR ID SIN AUTH
-  it('get the post by ID', async (done)=>{
     const allPost = await request.get('/post');
-    const lastPostId = allPost.body[allPost.body.length - 1]._id
-    const postGetId = await request.get('/post/' + lastPostId)
+    const lastPostIds = allPost.body[allPost.body.length - 1]._id
+    const postGetId = await request.get('/post/' + lastPostIds)
         .set('Accept', 'application/json')
         .expect('Content-Type', /json/)
         .expect(200);
-      done();    
-  });
-
-//   //AÑADIR UN COMENTARIO
-//   it('Update a post and add new comment', async (done) => {
-//     const allPost = await request.get('/post');
-//     const lastPostId = allPost.body[allPost.body.length - 1]._id
-//     const newComment = { 
-//         nickname: 'pepe',
-//         username: 'ana22',
-//         comment : 'Qué bonita es la caca en la primavera!!!!!'
-//     };
-//     console.log(newComment)
-//     await request.put('/post/' + lastPostId + '/comment' )
-//         .send(newComment)
-//         .set('Authorization', 'bearer ' + token)
-//         .expect('Content-type', /json/)
-//         .expect(200)
-
-//     const updateOldPOst = await request.get('/post/' + lastPostId)
-//         .expect('Content-type', /json/)
-//         .expect(200)
-//     expect(updateOldPOst.body.comment).toEqual(newComment);
-//     //expect(updateOldPOst.body.content).toEqual(newComment);
-//     done();
-
-// });
+    
 
   //PUT DE UN POST CON AUTH
-  it('update a POST', async (done) => {
-    const allPost = await request.get('/post');
-    const lastPostId = allPost.body[allPost.body.length - 1]._id
     const updatedPost = { 
       title: 'Aprendiendo a hacer test actualizaco',
       text: 'Que divertido es aprender a ha hacer testing contenido actualizado' 
@@ -136,24 +103,21 @@ describe('Test de post with auth', function () {
         .expect(200)
     expect(updateOldPOst.body.title).toEqual(updatedPost.title);
     expect(updateOldPOst.body.content).toEqual(updatedPost.content);
-    done();
 
-});
 
   //DELETE POST SON AUTH
-  it('delete a post', async () => {
-    const allPost = await request.get('/post');
-    //para borrar el último post, hago la petición de de todos los post, despues cojo el id del último que es el último que se ha creado con el test anterior, así lo borro y no se queda el de prueba en la db
-    const lastPostId = allPost.body[allPost.body.length - 1]._id
-    //borro el post y me tiene que dar respuesta 200ok
     const postdeleted = await request.delete('/post/'+ lastPostId)
           .set('Authorization', 'bearer ' + token)
           .expect('Content-type', /json/)
           .expect(200)
-    //compruebo que está borrado 
+    
       await request.get('/post/'+ lastPostId)
            .expect(404)
-  })
+    
+    done();
+  });
+
+
 });
 
   

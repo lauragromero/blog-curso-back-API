@@ -10,9 +10,8 @@ const  ValidatorCheckOffensiveWord = require ('../validator/validator-offensiveW
 
 async  function OffensiveValidator (req, res, next) {
     const comment = req.body;
-    //me traigo las palabras de la base de datos
+
     const offensivewordsDB = await OffensiveWordRepository.getAll();
-    //recorro esas palabras y voy fomando un objeto con la palabra y el nivel 
     const offensivewords = offensivewordsDB.map(item => {
         return { word: item.word, level: item.level }
     });

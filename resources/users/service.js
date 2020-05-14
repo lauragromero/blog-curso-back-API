@@ -25,16 +25,7 @@ UserService.find = async (user) => {
         console.log(err);
     }
 
-}
-
-// UserService.verifyPassword = async (user, password) => {
-//     try {
-//         return await UserRepository.verifyPassword(user, password);
-//     } catch (err) {
-//         console.log(err);
-//     }
-
-// }
+};
 
 UserService.createToken = async (user) => {
     try {
@@ -43,6 +34,6 @@ UserService.createToken = async (user) => {
         console.log(err);
     }
 
-}
+};
 
 module.exports = UserService; 
