@@ -1,7 +1,6 @@
 const UserRepository = require('../resources/users/repositoty')
 
 async function chekTokenVerify(payload, done) {
-    //console.log("payload", payload);
     const user = await UserRepository.find(payload.user);
     if (user) {
         return done(null, user);

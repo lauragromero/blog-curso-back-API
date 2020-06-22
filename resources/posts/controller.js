@@ -42,7 +42,12 @@ router.post('/', passport.authenticate('jwt', { session: false }), async (req, r
     
     try {
         const authorId = req.user._id;
-        const newPost = await PostService.addPost(req.body, authorId);
+        const reqPost= req.body;
+        reqPost.username = req.user.username;
+        reqPost.nickname = req.user.nickname;
+        const newPost = await PostService.addPost(reqPost, authorId);
+        console.log(newPost,)
+        
         res.status(201).send(newPost);
     }catch(err) {
         console.log(err);
@@ -59,19 +64,22 @@ router.put('/:id',passport.authenticate('jwt', { session: false }), async (req, 
         const authorId = req.user._id;
         const role =  req.user.role;
         const id = req.params.id;
+        console.log(id, req.user.id)
         const post = req.body;
+        post.username = req.user.username;
+        post.nickname = req.user.nickname;
         const postID = await PostService.getById(id);
-        console.log(postID.authorId, authorId)
+        console.log(post)
         
         if(role === 'admin' || postID.authorId == authorId ){
             const result = await PostService.updatePost(id, post);
             if (result !== null) {
                 res.status(200).json(result);
             }else{
-                res.status(404).json({message: 'Post not found'})
+                res.status(404).json({ message: 'Post not found'})
             }
         }else{
-            res.status(403).json({message: 'Can not modify this post'})
+            res.status(403).json({ message: 'Can not modify this post'})
         }
     } catch (err) {
         console.log(err);
@@ -83,6 +91,7 @@ router.put('/:id',passport.authenticate('jwt', { session: false }), async (req, 
 
 //borrar un post si eres admin o si ese post es del usuario
 router.delete('/:id', passport.authenticate('jwt', { session: false }), async(req, res, next) => {
+    console.log(req.user, 'hola')
     try {
         const authorId = req.user._id;
         const role =  req.user.role;
@@ -116,6 +125,9 @@ router.put('/:id/comment',passport.authenticate('jwt', { session: false }), Offe
         const postID = await PostService.getById(id);
         console.log(authorId, postID.authorId)
         const comment = req.body;
+        comment.username= req.user.username;
+        comment.nickname = req.user.nickname;
+        console.log(req.user)
         const postUpdate = await PostService.addComment(id, comment, authorId, postID.authorId);
 
         if (postUpdate !== null) {

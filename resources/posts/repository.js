@@ -56,7 +56,7 @@ PostRepository.addComment = async (idPost, comment, authorId, postAuthId) => {
     try {
         const newComment = await CommentRepository.addComment(comment, authorId, postAuthId);
         let postUpdate = await Post.findByIdAndUpdate(idPost, {$push: {comments: newComment}}, {new: true});
-        return postUpdate;
+        return newComment;
     } catch (err) {
         console.log(err);
     }

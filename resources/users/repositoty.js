@@ -6,6 +6,7 @@ const UserRepository = {};
 
 const SECRET_KEY = "SECRET_KEY" ;
 
+
 UserRepository.getAllUsers = async ()=>{
     try {
         return await User.find({}).select({ __v:0});
@@ -15,19 +16,13 @@ UserRepository.getAllUsers = async ()=>{
 }
 
 UserRepository.createUser = async (user) => {
-    let userLogin = await User.findOne({username: user.username});
-    
-    if(!userLogin){
-        userLogin = new User({ 
+       let userLogin = new User({ 
             username: user.username,
             nickname: user.nickname, 
             password: user.password, 
             role: user.role 
         });
-    }else{
-        userLogin.password = user.password;
-        console.log('User already registered')
-    }
+        console.log(userLogin, 'GUARDADO')
      return await userLogin.save();
 }
 

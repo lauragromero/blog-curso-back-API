@@ -1,5 +1,4 @@
 const express = require('express');
-//import OffensiveValidator from '../../middlewares/offensive-validator';
 const OffensiveWordService = require('./service');
 const router = express.Router();
 

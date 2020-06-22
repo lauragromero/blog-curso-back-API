@@ -21,7 +21,8 @@ async  function OffensiveValidator (req, res, next) {
         next();
     }else{
         const offensiveWord = offensivewordsFound.map(word => `La palabra ${word.word} no está permitida con nivel ${word.level}`);
-        res.status(403).json({message: offensiveWord});
+        res.status(403).json({ message: offensiveWord});
+        console.log(offensiveWord)
     }
     return offensivewordsFound;
 }

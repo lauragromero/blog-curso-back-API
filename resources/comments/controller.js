@@ -9,11 +9,13 @@ router.put('/:id', passport.authenticate('jwt', { session: false }), ValidatorCh
     try {
         const id = req.params.id;
         const comment = req.body;
+        comment.username = req.user.username;
+        comment.nickname = req.user.nickname;
         const result = await CommentService.updateComment(id, comment);
         if (result !== null) {
             res.status(200).json(result);
         }else{
-            res.status(404).json({message: 'Comment not found'})
+            res.status(404).json({ message: 'Comment not found'})
         }
     } catch (err) {
         console.log(err);

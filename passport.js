@@ -16,7 +16,7 @@ const SECRET_KEY = "SECRET_KEY"
 const routes = express.Router(); 
 
 routes.use(passport.initialize());
-// Basic auth que pasa al loguin 
+
 const verify = authUser.verify;
 passport.use(new BasicStrategy(verify));
 
@@ -26,7 +26,6 @@ const jwtOpts = {
     secretOrKey: SECRET_KEY
 }
 
-//compara el token 
 passport.use(new JwtStrategy(jwtOpts, chekAuth))
 
 
