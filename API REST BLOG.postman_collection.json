@@ -1,0 +1,395 @@
+{
+	"info": {
+		"_postman_id": "9a93363e-5dff-4b89-bb0d-259b27c32860",
+		"name": "API REST BLOG",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "getAllPOST",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6InBlcHBpcGVlIiwiaWF0IjoxNTg3OTIxNTA2fQ.XCPE6RLDAa5bNgJmIhSya30E422JKIYe3IyGKf08LPc",
+							"type": "string"
+						}
+					]
+				},
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:3002/post",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "3002",
+					"path": [
+						"post"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "getByIdPOST",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:3002/post/5ea8758cd75089137edf05a2",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "3002",
+					"path": [
+						"post",
+						"5ea8758cd75089137edf05a2"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "updatePOST",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyIjoicGVwZSIsImlkIjoiNWVhODVkNzJlNDg5MTYwZmRhMGZkZjZjIiwiaWF0IjoxNTg4MDk5MzIwLCJleHAiOjE1ODgxMDIzMjB9.GWDKsiUmHHzBv4nc6VMl6sFlggdpEMXRsgowzqpWyww",
+							"type": "string"
+						}
+					]
+				},
+				"method": "PUT",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{ \n    \"username\": \"Lola\",\n    \"nickname\": \"Lolita\",\n    \"title\": \"Voy a crear un post siendo publisher y probar si todo funciona\", \n    \"text\": \"Que bonitas son las mañanitas de Mayo\"\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:3002/post/5ea8758cd75089137edf05a2",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "3002",
+					"path": [
+						"post",
+						"5ea8758cd75089137edf05a2"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "createNewPOST",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyIjoicGVwZSIsImlkIjoiNWVhODVkNzJlNDg5MTYwZmRhMGZkZjZjIiwiaWF0IjoxNTg4MDk3MDc1LCJleHAiOjE1ODgxMDAwNzV9.3BFsnYlmskn8BFpzhRhoex4t9X2mphsfMyO1Wb8N2aU",
+							"type": "string"
+						}
+					]
+				},
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{ \n    \"username\": \"Lola\",\n    \"nickname\": \"Lolita\",\n    \"title\": \"Voy a crear un post siendo publisher\", \n    \"text\": \"Que bonitas son las mañanitas de Mayo\"\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:3002/post",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "3002",
+					"path": [
+						"post"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "deletePOST",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyIjoicGVwZSIsImlkIjoiNWVhODVkNzJlNDg5MTYwZmRhMGZkZjZjIiwiaWF0IjoxNTg4MDk5NDE2LCJleHAiOjE1ODgxMDI0MTZ9.5VwKm6Wc_m8Ou2Fm2zDecqi9KY4MSvB72sHcrC8hFjA",
+							"type": "string"
+						}
+					]
+				},
+				"method": "DELETE",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"nickname\": \"laura\",\n    \"username\": \"laura\",\n    \"comment\" :\"laura\"\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:3002/post/5ea8758cd75089137edf05a2",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "3002",
+					"path": [
+						"post",
+						"5ea8758cd75089137edf05a2"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "addNewCOMMENT",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyIjoibG9sYSIsImlkIjoiNWVhODcyNmY0MjUxZWQxMzM4ZTNhNGE1IiwiaWF0IjoxNTg4MDk5NTc0LCJleHAiOjE1ODgxMDI1NzR9.YchgxjDXChvL7EGJrMcz4hnk4OfHQiLLLItgkN1ccS0",
+							"type": "string"
+						}
+					]
+				},
+				"method": "PUT",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"nickname\": \"pepe\",\n    \"username\": \"ana22\",\n    \"comment\" :\"Qué bonito!!!!!\"\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:3002/post/5ea875cbd75089137edf05a3/comment",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "3002",
+					"path": [
+						"post",
+						"5ea875cbd75089137edf05a3",
+						"comment"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "LOGIN",
+			"request": {
+				"auth": {
+					"type": "basic",
+					"basic": [
+						{
+							"key": "username",
+							"value": "lola",
+							"type": "string"
+						},
+						{
+							"key": "password",
+							"value": "1234",
+							"type": "string"
+						}
+					]
+				},
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:3002/login",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "3002",
+					"path": [
+						"login"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "createNewUSER",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n\t\"username\": \"Ana\", \n\t\"nickname\": \"Anita\",\n\t\"password\": \"1234\"\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:3002/user",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "3002",
+					"path": [
+						"user"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "updateCOMMENT",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyIjoibG9sYSIsImlkIjoiNWVhODcyNmY0MjUxZWQxMzM4ZTNhNGE1IiwiaWF0IjoxNTg4MDk5NTc0LCJleHAiOjE1ODgxMDI1NzR9.YchgxjDXChvL7EGJrMcz4hnk4OfHQiLLLItgkN1ccS0",
+							"type": "string"
+						}
+					]
+				},
+				"method": "PUT",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"nickname\": \"pepe\",\n    \"username\": \"ana22\",\n    \"comment\" :\"Qué bonito y alegre!!!!!\"\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:3002/comment/5ea87a067c7808141996c9c1",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "3002",
+					"path": [
+						"comment",
+						"5ea87a067c7808141996c9c1"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "deleteCOMMENT",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyIjoicGVwZSIsImlkIjoiNWVhODVkNzJlNDg5MTYwZmRhMGZkZjZjIiwiaWF0IjoxNTg4MTAwMTA1LCJleHAiOjE1ODgxMDMxMDV9.9B04BnRt2jYIDe-aowpKJupKdDes_WvPe6Hu0IP3KdQ",
+							"type": "string"
+						}
+					]
+				},
+				"method": "DELETE",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:3002/comment/5ea87d39c6effe1445374045",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "3002",
+					"path": [
+						"comment",
+						"5ea87d39c6effe1445374045"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "checkOffensiveWordsPOST",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyIjoibG9sYSIsImlkIjoiNWVhODcyNmY0MjUxZWQxMzM4ZTNhNGE1IiwiaWF0IjoxNTg4MTAxMDg2LCJleHAiOjE1ODgxMDQwODZ9.DstcCzpb5CcFcxeNqlK9NrrsmLph677dviZ9LLC8ZcQ",
+							"type": "string"
+						}
+					]
+				},
+				"method": "PUT",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"nickname\": \"pepe\",\n    \"username\": \"ana22\",\n    \"comment\" :\"Qué bonita es la caca en la primavera!!!!!\"\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:3002/post/5ea875cbd75089137edf05a3/comment",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "3002",
+					"path": [
+						"post",
+						"5ea875cbd75089137edf05a3",
+						"comment"
+					]
+				}
+			},
+			"response": []
+		}
+	],
+	"protocolProfileBehavior": {}
+}
